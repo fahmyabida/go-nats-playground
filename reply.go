@@ -17,10 +17,10 @@ func reply(cmd *cobra.Command, args []string) {
 	wg.Add(1)
 	fmt.Println("replier", id)
 	// Subscribe
-	if _, err := nc.Subscribe("times", func(m *nats.Msg) {
+	if _, err := nc.Subscribe("REPLY.received", func(m *nats.Msg) {
 		fmt.Println(string(m.Data))
 
-		response := []byte(fmt.Sprint(id, ". now is ", time.Now()))
+		response := []byte(fmt.Sprint(id, ". yes mam, now is ", time.Now()))
 		fmt.Println(string(response))
 		m.Respond(response)
 	}); err != nil {

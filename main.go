@@ -12,14 +12,14 @@ var (
 )
 
 func init() {
-	nc, err = nats.Connect("localhost:4222")
+	nc, err = nats.Connect("localhost:4222", nats.Name("go NATS playground"))
 	if err != nil {
 		panic(err)
 	}
-	// js, err = nc.JetStream(nats.PublishAsyncMaxPending(256))
-	// if err != nil {
-	// 	panic(err)
-	// }
+	js, err = nc.JetStream(nats.PublishAsyncMaxPending(256))
+	if err != nil {
+		panic(err)
+	}
 }
 
 func main() {
@@ -44,6 +44,14 @@ func main() {
 	cobraCmd.AddCommand(&cobra.Command{
 		Use: "request",
 		Run: request,
+	})
+	cobraCmd.AddCommand(&cobra.Command{
+		Use: "consumer",
+		Run: consumer,
+	})
+	cobraCmd.AddCommand(&cobra.Command{
+		Use: "publish-js",
+		Run: publishJs,
 	})
 	cobraCmd.PersistentFlags().String("id", "", "identifier")
 	cobraCmd.Flags()

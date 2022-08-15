@@ -11,7 +11,7 @@ import (
 
 func request(cmd *cobra.Command, args []string) {
 	msg, err := nc.RequestMsg(&nats.Msg{
-		Subject: "times",
+		Subject: "ORDERS.received",
 		Header: map[string][]string{
 			"": {},
 		},
